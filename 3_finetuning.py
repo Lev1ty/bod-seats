@@ -85,8 +85,9 @@ def compute_metrics(output):
     metrics["accuracy"] = sklearn.metrics.accuracy_score(labels, predictions)
     return metrics
 
-_dir = (pathlib.Path().resolve() / uuid.uuid4().hex)
+_dir = pathlib.Path().resolve() / uuid.uuid4().hex
 _dir.mkdir()
+_dir = str(_dir)
 args = transformers.TrainingArguments(
     output_dir=f"{_dir}/output",
     num_train_epochs=8,
