@@ -2,7 +2,7 @@ SHELL=/bin/bash
 include .env
 export
 finetune:
-	python 3_finetune.py
+	python 3_finetuning.py
 gpustat:
 	gpustat -cupF -i 1
 jupyter:
