@@ -7,10 +7,12 @@
 
 
 import pandas as pd
+import pathlib
 import pyspark
 import sklearn
 import torch
 import transformers
+import uuid
 
 from IPython.display import display
 from pyspark.sql.functions import *
@@ -68,22 +70,6 @@ test_dataset = Dataset(test)
 # In[5]:
 
 
-args = transformers.TrainingArguments(
-    output_dir="3_finetuning/output",
-    num_train_epochs=8,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=32,
-    logging_dir="3_finetuning/logging",
-    logging_steps=32,
-    dataloader_num_workers=64,
-    evaluation_strategy="steps",
-    eval_steps=32,
-    save_steps=32,
-    fp16=True,
-    fp16_opt_level="O3",
-    learning_rate=5e-5,
-)
-
 def compute_metrics(output):
     labels = output.label_ids
     index = labels != -100
@@ -98,6 +84,25 @@ def compute_metrics(output):
         metrics[f"{average}_f1"] = f1
     metrics["accuracy"] = sklearn.metrics.accuracy_score(labels, predictions)
     return metrics
+
+_dir = (pathlib.Path().resolve() / uuid.uuid4().hex)
+_dir.mkdir()
+args = transformers.TrainingArguments(
+    output_dir=f"{_dir}/output",
+    num_train_epochs=8,
+    per_device_train_batch_size=16,
+    per_device_eval_batch_size=32,
+    logging_dir=f"{_dir}/logging",
+    logging_steps=16,
+    dataloader_num_workers=64,
+    evaluation_strategy="steps",
+    eval_steps=16,
+    save_steps=16,
+    fp16=True,
+    fp16_opt_level="O3",
+    learning_rate=5e-5,
+    run_name=_dir,
+)
 
 model = transformers.AlbertForSequenceClassification.from_pretrained("albert-base-v2", num_labels=2)
 tokenizer = transformers.AlbertTokenizerFast.from_pretrained("albert-base-v2")
