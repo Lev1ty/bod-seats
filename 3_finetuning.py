@@ -105,8 +105,8 @@ args = transformers.TrainingArguments(
     run_name=_dir,
 )
 
-model = transformers.AlbertForSequenceClassification.from_pretrained("albert-base-v2", num_labels=2)
-tokenizer = transformers.AlbertTokenizerFast.from_pretrained("albert-base-v2")
+model = transformers.AlbertForSequenceClassification.from_pretrained("albert-large-v2", num_labels=2)
+tokenizer = transformers.AlbertTokenizerFast.from_pretrained("albert-large-v2")
 data_collator = transformers.DataCollatorWithPadding(tokenizer=tokenizer, pad_to_multiple_of=32)
 trainer = transformers.Trainer(
     args=args,
