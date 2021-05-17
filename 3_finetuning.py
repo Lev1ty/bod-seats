@@ -94,14 +94,14 @@ args = transformers.TrainingArguments(
     per_device_train_batch_size=4,
     per_device_eval_batch_size=8,
     logging_dir=f"{_dir}/logging",
-    logging_steps=32,
+    logging_steps=256,
     dataloader_num_workers=64,
     evaluation_strategy="steps",
-    eval_steps=32,
-    save_steps=32,
+    eval_steps=256,
+    save_steps=256,
     fp16=True,
     fp16_opt_level="O3",
-    learning_rate=2*5e-5,
+    learning_rate=5e-4,
     run_name=_dir,
 )
 
