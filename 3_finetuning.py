@@ -90,7 +90,7 @@ _dir.mkdir()
 _dir = str(_dir)
 args = transformers.TrainingArguments(
     output_dir=f"{_dir}/output",
-    num_train_epochs=64,
+    num_train_epochs=32,
     per_device_train_batch_size=4,
     per_device_eval_batch_size=8,
     logging_dir=f"{_dir}/logging",
